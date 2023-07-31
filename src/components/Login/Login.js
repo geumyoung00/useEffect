@@ -4,12 +4,22 @@ import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
+const typingTimeout = () => console.log("ended typing");
+
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+    const typingTimer = setTimeout(() => {
+      typingTimeout();
+    }, 1000);
+
+    return () => clearTimeout(typingTimer);
+  }, [enteredEmail, enteredPassword]);
 
   useEffect(() => {
     setFormIsValid(
