@@ -4,20 +4,23 @@ import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
-const typingTimeout = () => console.log("입력된 내용을 출력합니다.");
-
-const enteredIputReducer = (enteredInput, action) => {
+const enteredIputReducer = (state, action) => {
   return {
-    ...enteredInput,
-    [action.value]: action.value,
+    ...state,
+    [action.type]: action.value,
   };
 };
 
 const Login = (props) => {
+  const typingTimeout = () => {
+    console.log("입력된 이메일 : " + email);
+  };
+
   const [enteredInput, enteredInputDispatch] = useReducer(enteredIputReducer, {
-    mail: "",
+    email: "",
     password: "",
   });
+
   const { email, password } = enteredInput;
 
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -32,12 +35,10 @@ const Login = (props) => {
     }, 1000);
 
     return () => clearTimeout(typingTimer);
-  }, [enteredInput.email, enteredInput.password]);
+  }, [email, password]);
 
   useEffect(() => {
-    setFormIsValid(
-      enteredEmail.includes("@") && enteredPassword.trim().length > 6
-    );
+    setFormIsValid(email.includes("@") && password.trim().length > 6);
   });
 
   const emailChangeHandler = (event) => {
@@ -57,16 +58,16 @@ const Login = (props) => {
   };
 
   const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes("@"));
+    setEmailIsValid(email.includes("@"));
   };
 
   const validatePasswordHandler = () => {
-    setPasswordIsValid(enteredPassword.trim().length > 6);
+    setPasswordIsValid(password.trim().length > 6);
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(email, password);
   };
 
   return (
