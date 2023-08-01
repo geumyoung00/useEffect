@@ -1,12 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
-const typingTimeout = () => console.log("ended typing");
+const typingTimeout = () => console.log("입력된 내용을 출력합니다.");
+
+const enteredIputReducer = (enteredInput, action) => {
+  return {
+    ...enteredInput,
+    [action.value]: action.value,
+  };
+};
 
 const Login = (props) => {
+  const [enteredInput, enteredInputDispatch] = useReducer(enteredIputReducer, {
+    mail: "",
+    password: "",
+  });
+  const { email, password } = enteredInput;
+
   const [enteredEmail, setEnteredEmail] = useState("");
   const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -19,7 +32,7 @@ const Login = (props) => {
     }, 1000);
 
     return () => clearTimeout(typingTimer);
-  }, [enteredEmail, enteredPassword]);
+  }, [enteredInput.email, enteredInput.password]);
 
   useEffect(() => {
     setFormIsValid(
@@ -28,14 +41,16 @@ const Login = (props) => {
   });
 
   const emailChangeHandler = (event) => {
-    setEnteredEmail(event.target.value);
+    // setEnteredEmail(event.target.value);
+    enteredInputDispatch(event.target);
     // setFormIsValid(
     //   event.target.value.includes("@") && enteredPassword.trim().length > 6
     // );
   };
 
   const passwordChangeHandler = (event) => {
-    setEnteredPassword(event.target.value);
+    // setEnteredPassword(event.target.value);
+    enteredInputDispatch(event.target);
     // setFormIsValid(
     //   event.target.value.trim().length > 6 && enteredEmail.includes("@")
     // );
@@ -66,7 +81,7 @@ const Login = (props) => {
           <input
             type="email"
             id="email"
-            value={enteredEmail}
+            value={email}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           />
@@ -80,7 +95,7 @@ const Login = (props) => {
           <input
             type="password"
             id="password"
-            value={enteredPassword}
+            value={password}
             onChange={passwordChangeHandler}
             onBlur={validatePasswordHandler}
           />
