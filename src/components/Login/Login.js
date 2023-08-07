@@ -5,6 +5,7 @@ import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
 const typingTimeout = () => console.log("ended typing");
+
 //useReducer는 상태값이 많아서 서로 엮여있을 때 주로 사용, 최신의 상태값을 확인해준다.
 
 const emailReducer = (state, action) => {
