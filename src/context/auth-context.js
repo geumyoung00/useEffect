@@ -1,6 +1,37 @@
 // auth : 사용자 인증에 관련 (Authentication)
-import React, { createContext } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 const AuthContext = createContext({ isLoggedIn: false, onLogout: () => {} });
 
+const AuthContextProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const storedLoggedinInfo = localStorage.getItem("isLoggedIn");
+    if (storedLoggedinInfo === "1") {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const loginHandler = (email, password) => {
+    // We should of course check email and password
+    // But it's just a dummy/ demo anyways
+    localStorage.setItem("isLoggedIn", "1");
+    setIsLoggedIn(true);
+  };
+
+  const logoutHandler = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+  };
+
+  const value = {
+    state: { isLoggedIn },
+    action: { setIsLoggedIn, loginHandler, logoutHandler },
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export { AuthContextProvider };
 export default AuthContext;
