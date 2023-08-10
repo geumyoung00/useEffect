@@ -27,6 +27,7 @@ export const AuthContextProvider = ({ children }) => {
     // But it's just a dummy/ demo anyways
     localStorage.setItem("isLoggedIn", "1");
     setIsLoggedIn(true);
+    console.log(isLoggedIn);
   };
 
   const logoutHandler = () => {
@@ -38,6 +39,8 @@ export const AuthContextProvider = ({ children }) => {
     state: { isLoggedIn },
     actions: { setIsLoggedIn, loginHandler, logoutHandler },
   };
+
+  console.log(isLoggedIn);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

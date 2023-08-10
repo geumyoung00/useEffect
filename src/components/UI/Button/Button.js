@@ -1,15 +1,12 @@
 import React, { useContext } from "react";
-import AuthContext from "../../../context/auth-context";
 import classes from "./Button.module.css";
 
 const Button = (props) => {
-  const ctx = useContext(AuthContext);
-
   return (
     <button
       type={props.type || "button"}
       className={`${classes.button} ${props.className}`}
-      onClick={ctx.onLogout}
+      onClick={props.onClick}
       disabled={props.disabled}
     >
       {props.children}

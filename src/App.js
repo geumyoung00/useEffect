@@ -36,18 +36,16 @@ const App = () => {
   const { state, actions } = useContext(AuthContext);
 
   return (
-    <AuthContextProvider>
-      <>
-        <MainHeader
-          isAuthenticated={state.isLoggedIn}
-          onLogout={actions.logoutHandler}
-        />
-        <main>
-          {!state.isLoggedIn && <Login onLogin={actions.loginHandler} />}
-          {state.isLoggedIn && <Home onLogout={actions.logoutHandler} />}
-        </main>
-      </>
-    </AuthContextProvider>
+    <>
+      <MainHeader
+        isAuthenticated={state.isLoggedIn}
+        onLogout={actions.logoutHandler}
+      />
+      <main>
+        {!state.isLoggedIn && <Login />}
+        {state.isLoggedIn && <Home onLogout={actions.logoutHandler} />}
+      </main>
+    </>
   );
 };
 
