@@ -4,7 +4,6 @@ import React, { createContext, useState, useEffect } from "react";
 const AuthContext = createContext({
   state: { isLoggedIn: null },
   actions: {
-    onLogout: () => {},
     loginHandler: () => {},
     logoutHandler: () => {},
     setIsLoggedIn: () => {},
