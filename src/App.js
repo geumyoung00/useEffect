@@ -1,11 +1,17 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  createContext,
+  useCallback,
+  useContext,
+} from "react";
 
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import MainHeader from "./components/MainHeader/MainHeader";
 import AuthContext, { AuthContextProvider } from "./context/auth-context";
 
-function App() {
+const App = () => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // useEffect(() => {
@@ -27,24 +33,22 @@ function App() {
   //   setIsLoggedIn(false);
   // };
 
-  const { state, action } = createContext(AuthContextProvider);
+  const { state, actions } = useContext(AuthContext);
 
   return (
-    <AuthContextProvider
-    //value={{ isLoggedIn: isLoggedIn, onLogout: logoutHandler }}
-    >
+    <AuthContextProvider>
       <>
         <MainHeader
           isAuthenticated={state.isLoggedIn}
-          onLogout={action.logoutHandler}
+          onLogout={actions.logoutHandler}
         />
         <main>
-          {!state.isLoggedIn && <Login onLogin={action.loginHandler} />}
-          {state.isLoggedIn && <Home onLogout={action.logoutHandler} />}
+          {!state.isLoggedIn && <Login onLogin={actions.loginHandler} />}
+          {state.isLoggedIn && <Home onLogout={actions.logoutHandler} />}
         </main>
       </>
     </AuthContextProvider>
   );
-}
+};
 
 export default App;

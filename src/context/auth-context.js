@@ -1,10 +1,19 @@
 // auth : 사용자 인증에 관련 (Authentication)
 import React, { createContext, useState, useEffect } from "react";
 
-const AuthContext = createContext({ isLoggedIn: false, onLogout: () => {} });
+const AuthContext = createContext({
+  state: { isLoggedIn: null },
+  actions: {
+    onLogout: () => {},
+    loginHandler: () => {},
+    logoutHandler: () => {},
+    setIsLoggedIn: () => {},
+  },
+});
 
-const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const { state, action } = createContext(AuthContextProvider);
 
   useEffect(() => {
     const storedLoggedinInfo = localStorage.getItem("isLoggedIn");
@@ -27,11 +36,11 @@ const AuthContextProvider = ({ children }) => {
 
   const value = {
     state: { isLoggedIn },
-    action: { setIsLoggedIn, loginHandler, logoutHandler },
+    actions: { setIsLoggedIn, loginHandler, logoutHandler },
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export { AuthContextProvider };
+// export { AuthContextProvider };
 export default AuthContext;
